@@ -18,7 +18,7 @@ log = { version = "0.4.4", optional = true }
 pki-types = { package = "rustls-pki-types", version = "1" }
 rustls-native-certs = { version = "0.7", optional = true }
 rustls-platform-verifier = { version = "0.2", optional = true }
-rustls = { version = "0.22", default-features = false }
+rustls = { version = "0.23", default-features = false, features = ["std"] }
 tokio = "1.0"
 tokio-rustls = { version = "0.25", default-features = false }
 tower-service = "0.3"
@@ -28,7 +28,7 @@ futures-util = { version = "0.3", default-features = false }
 [dev-dependencies]
 http-body-util = "0.1"
 hyper-util = { version = "0.1", default-features = false, features = ["server-auto"] }
-rustls = { version = "0.22", default-features = false, features = ["tls12"] }
+rustls = { version = "0.23", default-features = false, features = ["std", "tls12"] }
 rustls-pemfile = "2"
 tokio = { version = "1.0", features = ["io-std", "macros", "net", "rt-multi-thread"] }
 
@@ -56,3 +56,8 @@ required-features = ["ring"]
 [package.metadata.docs.rs]
 all-features = true
 rustdoc-args = ["--cfg", "docsrs"]
+
+[patch.crates-io]
+# Drop when https://github.com/rustls/tokio-rustls/pull/44 is merged.
+tokio-rustls = { git = "https://github.com/rustls/tokio-rustls", rev = "b3a2b143239d66253ba09f8ac4bfc4b7ab00cfac" } # jbp-rustls-0.23
+rustls-platform-verifier = { git = "https://github.com/grafbase/rustls-platform-verifier", rev = "e55228f84d5312e9819d655be1817bf757661d27" } # rustls-0.23
